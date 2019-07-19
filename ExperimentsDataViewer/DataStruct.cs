@@ -5,11 +5,11 @@ using System.Web;
 
 namespace ExperimentsDataViewer
 {
-    public class DataStruct
+    public class ExpDetail
     {
         public string dateTime;
         public string data;
-        public DataStruct(string dateTime, string data)
+        public ExpDetail(string dateTime, string data)
         {
             this.dateTime = dateTime;
             this.data = data;

@@ -16,7 +16,7 @@ namespace ExperimentsDataViewer
             connection.Open();
         }
 
-        public void BulkInsert(string tableName, List<DataStruct> dataList)
+        public void InsertExpDetail(string tableName, List<ExpDetail> dataList)
         {
             DataTable table = new DataTable("ParentTable");
 
@@ -26,13 +26,13 @@ namespace ExperimentsDataViewer
             timeColumn.Unique = true;
 
             DataColumn accelerationColumn = new DataColumn();
-            accelerationColumn.DataType = Type.GetType("System.Decimal");
+            accelerationColumn.DataType = Type.GetType("System.Double");
             accelerationColumn.ColumnName = "acceleration";
 
             table.Columns.Add(timeColumn);
             table.Columns.Add(accelerationColumn);
 
-            foreach (DataStruct item in dataList)
+            foreach (ExpDetail item in dataList)
             {
                 try
                 {
@@ -61,37 +61,6 @@ namespace ExperimentsDataViewer
                 {
                     Console.WriteLine(ex.Message);
                 }
-            }
-        }
-
-        public void CreateTable(string tableName)
-        {
-            string queryString =
-            "CREATE TABLE [" + tableName + "] (" +
-            "time DateTime NOT NULL,    " +
-            "acceleration decimal(10,4) NOT NULL,    " +
-            "PRIMARY KEY(time)); ";
-
-            try
-            {
-                SqlCommand command = new SqlCommand(queryString, connection);
-                SqlDataReader reader = command.ExecuteReader();
-                try
-                {
-                    while (reader.Read())
-                    {
-                        Console.WriteLine(String.Format("SQL Command Excuted: {0}, {1}", reader[0], reader[1]));
-                    }
-                }
-                finally
-                {
-                    // Always call Close when done reading.
-                    reader.Close();
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error: {0}", e);
             }
         }
     }
