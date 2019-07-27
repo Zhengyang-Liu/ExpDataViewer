@@ -13,6 +13,8 @@ namespace ExperimentsDataViewer.Controllers
     public class ExpInfoController : Controller
     {
         private ExpInfoContext db = new ExpInfoContext();
+        private ExpNumberConfigContext expNumberConfigContextDb = new ExpNumberConfigContext();
+        private RunningExpContext runningExpContextDb = new RunningExpContext();
 
         // GET: ExpInfo
         public ActionResult Index()
@@ -33,6 +35,66 @@ namespace ExperimentsDataViewer.Controllers
                 return HttpNotFound();
             }
             return View(expInfo);
+        }
+
+        public ActionResult StartExp()
+        {
+            if (this.HasRunningExp())
+                return View();
+
+            int expNo = this.GetExpNo() + 1;
+            SetExpNo(expNo);
+
+            ExpInfo expInfo = new ExpInfo()
+            {
+                StartTime = DateTime.Now,
+                ExpNo = expNo
+            };
+            this.AddExpInfo(expInfo);
+
+            this.AddRunningExp(
+                new RunningExp()
+                {
+                    ExpNo = expNo,
+                    Status = 0
+                }
+            );
+            return View(expInfo);
+        }
+
+        private bool HasRunningExp()
+        {
+            var runningExpSet = runningExpContextDb.RunningExp;
+            if (runningExpSet == null || runningExpSet.Count() <= 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private int GetExpNo()
+        {
+            return 0;
+        }
+
+        private void SetExpNo(int expNo)
+        {
+
+        }
+
+        private void AddExpInfo(ExpInfo expInfo)
+        {
+            if (ModelState.IsValid)
+            {
+                db.ExpInfoes.Add(expInfo);
+                db.SaveChanges();
+            }
+        }
+
+        private void AddRunningExp(RunningExp runningExp)
+        {
+            runningExpContextDb.RunningExp.Add(runningExp);
+            runningExpContextDb.SaveChanges();
         }
 
         // GET: ExpInfo/Create

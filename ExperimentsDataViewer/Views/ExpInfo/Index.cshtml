@@ -4,46 +4,50 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Experiment Manager</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<div class="row">
+    <div class="col-md-4">
+        <p><a class="btn btn-success btn-lg" href="@Url.Action("StartExp")">Start Exp</a></p>
+    </div>
+</div>
+
 <table class="table">
-	<tr>
-		<th>
-			@Html.DisplayNameFor(model => model.ExpNo)
-		</th>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpNo)
+        </th>
 
-		<th>
-			@Html.DisplayNameFor(model => model.StartTime)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.EndTime)
-		</th>
-		<th>
-			Action
-		</th>
-		<th></th>
-	</tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </th>
+        <th>
+            Action
+        </th>
+        <th></th>
+    </tr>
 
-@foreach (var item in Model) {
-<tr>
-	<td>
-		@Html.DisplayFor(modelItem => item.ExpNo)
-	</td>
-	<td>
-		@Html.DisplayFor(modelItem => item.StartTime)
-	</td>
-	<td>
-		@Html.DisplayFor(modelItem => item.EndTime)
-	</td>
-	<td>
-		@Html.ActionLink("Edit", "Edit", new { id = item.ExpNo }) |
-		@Html.ActionLink("Details", "Details", new { id = item.ExpNo }) |
-		@Html.ActionLink("Delete", "Delete", new { id = item.ExpNo })
-	</td>
-</tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ExpNo }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ExpNo }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ExpNo })
+            </td>
+        </tr>
+    }
 
 </table>

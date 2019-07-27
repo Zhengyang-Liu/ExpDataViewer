@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -16,11 +17,13 @@ namespace ExperimentsDataViewer.Models
         public int ExpNo { set; get; }
 
         // The experiment start time
-        [DataType(DataType.DateTime)]
+        //[DataType(DataType.DateTime)]
+        [Column(TypeName = "datetime2")]
         public DateTime StartTime { set; get; }
 
         // The experiment end time
-        [DataType(DataType.DateTime)]
+        //[DataType(DataType.DateTime)]
+        [Column(TypeName = "datetime2")]
         public DateTime EndTime { set; get; }
     }
 }
