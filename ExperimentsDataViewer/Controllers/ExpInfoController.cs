@@ -15,6 +15,8 @@ namespace ExperimentsDataViewer.Controllers
         private ExpInfoContext db = new ExpInfoContext();
         private RunningExpContext runningExpContextDb = new RunningExpContext();
 
+        private ExpInfoDetailContext expInfoDetailContext = new ExpInfoDetailContext();
+
         // GET: ExpInfo
         public ActionResult Index()
         {
@@ -34,7 +36,12 @@ namespace ExperimentsDataViewer.Controllers
             {
                 return HttpNotFound();
             }
-            return View(expInfo);
+            var list = expInfoDetailContext.ExpInfoDetails.ToList().Where(detail => detail.ExpNo == id.Value);
+            if (list == null || list.Count() <= 0)
+            {
+                return View(new List<ExpInfoDetail>());
+            }
+            return View(list);
         }
 
         public ActionResult StartExp()

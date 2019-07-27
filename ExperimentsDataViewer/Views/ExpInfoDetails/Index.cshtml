@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ExperimentsDataViewer.Models.ExpInfoDetail>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CollectedTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Acceleration)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExpNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CollectedTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Acceleration)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
