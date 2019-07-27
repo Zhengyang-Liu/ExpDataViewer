@@ -35,6 +35,13 @@ namespace ExperimentsDataViewer.Controllers
             return View(expDataSummaryInfo);
         }
 
+        public ActionResult StartExp(ExpDataSummaryInfo expDataSummaryInfo)
+        {
+
+
+            return View(expDataSummaryInfo);
+        }
+
         // GET: ExpDataSummaryInfo/Create
         public ActionResult Create()
         {
