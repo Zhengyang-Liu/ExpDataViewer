@@ -13,7 +13,6 @@ namespace ExperimentsDataViewer.Controllers
     public class ExpInfoController : Controller
     {
         private ExpInfoContext db = new ExpInfoContext();
-        private ExpNumberConfigContext expNumberConfigContextDb = new ExpNumberConfigContext();
         private RunningExpContext runningExpContextDb = new RunningExpContext();
 
         // GET: ExpInfo
@@ -43,21 +42,16 @@ namespace ExperimentsDataViewer.Controllers
             if (this.HasRunningExp())
                 return RedirectToAction("Index");
 
-            int expNo = this.GetExpNo() + 1;
-            SetExpNo(expNo);
-
             var startTime = DateTime.Now;
             ExpInfo expInfo = new ExpInfo()
             {
-                StartTime = startTime,
-                ExpNo = expNo
+                StartTime = startTime
             };
             this.AddExpInfo(expInfo);
 
             this.AddRunningExp(
                 new RunningExp()
                 {
-                    ExpNo = expNo,
                     StartTime = startTime
                 }
             );
@@ -87,27 +81,6 @@ namespace ExperimentsDataViewer.Controllers
                 return false;
             }
             return true;
-        }
-
-        private int GetExpNo()
-        {
-            var expNumberConfigs = expNumberConfigContextDb.ExpNumberConfig;
-            if (expNumberConfigs == null)
-            {
-                expNumberConfigs.Add(
-                    new ExpNumberConfig()
-                    {
-                        CurrentExpNo = 0,
-                        Id = 0
-                    });
-            }
-
-            return 0;
-        }
-
-        private void SetExpNo(int expNo)
-        {
-
         }
 
         private void AddExpInfo(ExpInfo expInfo)

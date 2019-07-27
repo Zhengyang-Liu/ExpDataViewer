@@ -140,10 +140,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\ExpNumberConfigContext.cs" />
     <Compile Include="Models\RunningExp.cs" />
     <Compile Include="Models\RunningExpContext.cs" />
-    <Compile Include="Models\ExpNumberConfig.cs" />
     <Compile Include="Models\ExpInfoDetail.cs" />
     <Compile Include="Models\ExpInfo.cs" />
     <Compile Include="Models\ExpInfoContext.cs" />
