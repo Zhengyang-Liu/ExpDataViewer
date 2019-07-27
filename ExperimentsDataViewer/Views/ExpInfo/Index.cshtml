@@ -6,11 +6,9 @@
 
 <h2>Experiment Manager</h2>
 
-<div class="row">
-    <div class="col-md-4">
-        <p><a class="btn btn-success btn-lg" href="@Url.Action("StartExp")">Start Exp</a></p>
-    </div>
-</div>
+
+
+@{Html.RenderPartial("RunningExp", ViewBag.RunningExpList as IEnumerable<ExperimentsDataViewer.Models.RunningExp>);}
 
 <table class="table">
     <tr>

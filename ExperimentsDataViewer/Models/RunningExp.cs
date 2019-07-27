@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -12,7 +13,7 @@ namespace ExperimentsDataViewer.Models
         // The experiment number.
         public int ExpNo { set; get; }
 
-        // The experiment current status: 0-Inprogress; 1-Finished
-        public int Status { set; get; }
+        [Column(TypeName = "datetime2")]
+        public DateTime StartTime { get; set; }
     }
 }

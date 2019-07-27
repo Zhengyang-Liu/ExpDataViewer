@@ -19,6 +19,7 @@ namespace ExperimentsDataViewer.Controllers
         // GET: ExpInfo
         public ActionResult Index()
         {
+            ViewBag.RunningExpList = runningExpContextDb.RunningExp.ToList();
             return View(db.ExpInfoes.ToList());
         }
 
@@ -40,14 +41,15 @@ namespace ExperimentsDataViewer.Controllers
         public ActionResult StartExp()
         {
             if (this.HasRunningExp())
-                return View();
+                return RedirectToAction("Index");
 
             int expNo = this.GetExpNo() + 1;
             SetExpNo(expNo);
 
+            var startTime = DateTime.Now;
             ExpInfo expInfo = new ExpInfo()
             {
-                StartTime = DateTime.Now,
+                StartTime = startTime,
                 ExpNo = expNo
             };
             this.AddExpInfo(expInfo);
@@ -56,10 +58,25 @@ namespace ExperimentsDataViewer.Controllers
                 new RunningExp()
                 {
                     ExpNo = expNo,
-                    Status = 0
+                    StartTime = startTime
                 }
             );
-            return View(expInfo);
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult FinishExp()
+        {
+            var runningExp = runningExpContextDb.RunningExp.ToList()[0];
+            var expSet = db.ExpInfoes;
+
+            ExpInfo expInfo = expSet.Find(runningExp.ExpNo);
+            expInfo.EndTime = DateTime.Now;
+            this.Edit(expInfo);
+
+            runningExpContextDb.RunningExp.Remove(runningExp);
+            runningExpContextDb.SaveChanges();
+
+            return RedirectToAction("Index");
         }
 
         private bool HasRunningExp()
@@ -74,6 +91,17 @@ namespace ExperimentsDataViewer.Controllers
 
         private int GetExpNo()
         {
+            var expNumberConfigs = expNumberConfigContextDb.ExpNumberConfig;
+            if (expNumberConfigs == null)
+            {
+                expNumberConfigs.Add(
+                    new ExpNumberConfig()
+                    {
+                        CurrentExpNo = 0,
+                        Id = 0
+                    });
+            }
+
             return 0;
         }
 

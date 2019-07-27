@@ -139,6 +139,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ExpNumberConfigContext.cs" />
     <Compile Include="Models\RunningExp.cs" />
     <Compile Include="Models\RunningExpContext.cs" />
@@ -192,6 +193,7 @@
     <Content Include="Views\ExpInfo\Details.cshtml" />
     <Content Include="Views\ExpInfo\Edit.cshtml" />
     <Content Include="Views\ExpInfo\Index.cshtml" />
+    <Content Include="Views\ExpInfo\RunningExp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
