@@ -128,8 +128,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\ExpDataController.cs" />
-    <Compile Include="Controllers\ExpDataSummaryInfoController.cs" />
+    <Compile Include="Controllers\ExpInfoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DatabaseManager.cs" />
     <Compile Include="DataManager.cs" />
@@ -140,13 +139,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\ExpNumberConfigContext.cs" />
+	<Compile Include="Models\ExpNumberConfigContext.cs" />
     <Compile Include="Models\RunningExp.cs" />
-    <Compile Include="Models\ExpData.cs" />
-    <Compile Include="Models\ExpDataSummaryInfo.cs" />
-    <Compile Include="Models\ExpDataSummaryInfoContext.cs" />
-    <Compile Include="Models\RunningExpContext.cs" />
+	<Compile Include="Models\RunningExpContext.cs" />
     <Compile Include="Models\ExpNumberConfig.cs" />
+    <Compile Include="Models\ExpDataDetail.cs" />
+    <Compile Include="Models\ExpInfo.cs" />
+    <Compile Include="Models\ExpInfoContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -188,11 +187,11 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Settings.config" />
-    <Content Include="Views\ExpDataSummaryInfo\Create.cshtml" />
-    <Content Include="Views\ExpDataSummaryInfo\Delete.cshtml" />
-    <Content Include="Views\ExpDataSummaryInfo\Details.cshtml" />
-    <Content Include="Views\ExpDataSummaryInfo\Edit.cshtml" />
-    <Content Include="Views\ExpDataSummaryInfo\Index.cshtml" />
+    <Content Include="Views\ExpInfo\Create.cshtml" />
+    <Content Include="Views\ExpInfo\Delete.cshtml" />
+    <Content Include="Views\ExpInfo\Details.cshtml" />
+    <Content Include="Views\ExpInfo\Edit.cshtml" />
+    <Content Include="Views\ExpInfo\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
