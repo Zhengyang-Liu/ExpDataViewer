@@ -40,11 +40,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.EndTime)
             </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ExpNo }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ExpNo }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ExpNo })
-            </td>
+			<td>
+				@Html.ActionLink("Edit", "Edit", new { id = item.ExpNo }) |
+				@Html.ActionLink("Details", "Details", new { id = item.ExpNo }) |
+				@Html.ActionLink("Chart", "Chart", new { id = item.ExpNo }) |
+				@Html.ActionLink("Delete", "Delete", new { id = item.ExpNo })
+			</td>
         </tr>
     }
 

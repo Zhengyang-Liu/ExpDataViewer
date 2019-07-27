@@ -44,6 +44,16 @@ namespace ExperimentsDataViewer.Controllers
             return View(list);
         }
 
+        // GET: ExpInfo/Chart/5
+        public ActionResult Chart(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            return View();
+        }
+
         public ActionResult StartExp()
         {
             if (this.HasRunningExp())
