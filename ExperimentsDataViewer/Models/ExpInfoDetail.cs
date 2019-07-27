@@ -6,7 +6,7 @@ using System.Web;
 
 namespace ExperimentsDataViewer.Models
 {
-    public class ExpDataDetail
+    public class ExpInfoDetail
     {
         public int Id { get; set; }
 
