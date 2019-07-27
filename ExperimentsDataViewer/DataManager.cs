@@ -12,7 +12,6 @@ namespace ExperimentsDataViewer
     {
         static IDataSource dataSource = new FakeDataSource(AppendData);
         static StringBuilder sb = new StringBuilder();
-        static DatabaseManager databaseManager = new DatabaseManager("zhengyl-db.database.windows.net", "zhengyl-db", "liuzhengyang183", "COOL_man183");
 
         public static void Init()
         {
