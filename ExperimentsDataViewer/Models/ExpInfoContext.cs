@@ -6,7 +6,7 @@ using System.Web;
 
 namespace ExperimentsDataViewer.Models
 {
-    public class ExpDataSummaryInfoContext : DbContext
+    public class ExpInfoContext : DbContext
     {
         // You can add custom code to this file. Changes will not be overwritten.
         // 
@@ -15,10 +15,10 @@ namespace ExperimentsDataViewer.Models
         // For more information refer to the documentation:
         // http://msdn.microsoft.com/en-us/data/jj591621.aspx
     
-        public ExpDataSummaryInfoContext() : base("name=ExpDataSummaryInfoContext")
+        public ExpInfoContext() : base("name=ExpInfoContext")
         {
         }
 
-        public System.Data.Entity.DbSet<ExperimentsDataViewer.Models.ExpDataSummaryInfo> ExpDataSummaryInfoes { get; set; }
+        public System.Data.Entity.DbSet<ExperimentsDataViewer.Models.ExpInfo> ExpInfoes { get; set; }
     }
 }
