@@ -23,7 +23,7 @@ namespace ExperimentsDataViewer
 
         private static void AppendData(string data)
         {
-            sb.Append(data);
+            //sb.Append(data);
             Console.WriteLine(sb);
         }
 
