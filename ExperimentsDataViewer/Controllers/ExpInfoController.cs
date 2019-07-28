@@ -51,7 +51,17 @@ namespace ExperimentsDataViewer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            return View();
+            ExpInfo expInfo = db.ExpInfoes.Find(id);
+            if (expInfo == null)
+            {
+                return HttpNotFound();
+            }
+            var list = expInfoDetailContext.ExpInfoDetails.ToList().Where(detail => detail.ExpNo == id.Value);
+            if (list == null || list.Count() <= 0)
+            {
+                return View(new List<ExpInfoDetail>());
+            }
+            return View(list);
         }
 
         public ActionResult StartExp()
