@@ -136,11 +136,11 @@
     <Compile Include="DataSource\ArduinoDataSource.cs" />
     <Compile Include="DataSource\FakeDataSource.cs" />
     <Compile Include="DataSource\IDataSource.cs" />
-    <Compile Include="DataStruct.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ExpInfoDetailContext.cs" />
+    <Compile Include="Models\ExpNoConfig.cs" />
     <Compile Include="Models\RunningExp.cs" />
     <Compile Include="Models\RunningExpContext.cs" />
     <Compile Include="Models\ExpInfoDetail.cs" />

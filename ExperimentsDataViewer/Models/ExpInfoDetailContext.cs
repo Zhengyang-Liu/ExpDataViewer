@@ -17,6 +17,8 @@ namespace ExperimentsDataViewer.Models
     
         public ExpInfoDetailContext() : base("name=ExpInfoDetailContext")
         {
+            this.Configuration.AutoDetectChangesEnabled = false;
+            this.Configuration.ValidateOnSaveEnabled = false;
         }
 
         public System.Data.Entity.DbSet<ExperimentsDataViewer.Models.ExpInfoDetail> ExpInfoDetails { get; set; }

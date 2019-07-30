@@ -4,15 +4,17 @@ using System.IO.Ports;
 using System.IO;
 using System.Text;
 using System.Timers;
+using ExperimentsDataViewer.Models;
 
 namespace ExperimentsDataViewer.DataSource
 {
     class FakeDataSource : IDataSource
     {
         Timer timer;
-        Action<string> appendDataFunction;
+        Action<ExpInfoDetail> appendDataFunction;
+        Random rnd = new Random();
 
-        public FakeDataSource(Action<string> appendDataFunction)
+        public FakeDataSource(Action<ExpInfoDetail> appendDataFunction)
         {
             this.appendDataFunction = appendDataFunction;
         }
@@ -33,8 +35,13 @@ namespace ExperimentsDataViewer.DataSource
 
         private void WriteDate(object sender, EventArgs e)
         {
-            string data = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + "|0.003\n";
-            appendDataFunction(data);
+            ExpInfoDetail expInfoDetail = new ExpInfoDetail()
+            {
+                CollectedTime = DateTime.Now,
+                Acceleration = rnd.NextDouble()
+            };
+
+            appendDataFunction(expInfoDetail);
         }
 
         public void OnClose()

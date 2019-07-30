@@ -1,4 +1,5 @@
 ﻿using ExperimentsDataViewer.DataSource;
+using ExperimentsDataViewer.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -10,24 +11,48 @@ namespace ExperimentsDataViewer
 {
     public static class DataManager
     {
-        static IDataSource dataSource = new FakeDataSource(AppendData);
-        static StringBuilder sb = new StringBuilder();
+        public static bool runningExp = false;
+        public static int expNo;
+
+        static IDataSource dataSource = new FakeDataSource(AddExpDetail);
+        static ExpInfoDetailContext expInfoDetailContext = new ExpInfoDetailContext();
+        static RunningExpContext runningExpContextDb = new RunningExpContext();
 
         public static void Init()
         {
             dataSource.Start();
-            InitDatabase();
+            if(HasRunningExp())
+            {
+                runningExp = true;
+            }
         }
 
-
-        private static void AppendData(string data)
+        private static bool HasRunningExp()
         {
-            //sb.Append(data);
-            Console.WriteLine(sb);
+            return runningExpContextDb.RunningExp.Any();
         }
 
-        private static void InitDatabase()
+        public static void AddExpDetail(ExpInfoDetail expInfoDetail)
         {
+            if(runningExp)
+            {
+                expInfoDetail.ExpNo = expNo;
+                expInfoDetailContext.ExpInfoDetails.Add(expInfoDetail);
+                expInfoDetailContext.SaveChanges();
+            }
+        }
+
+        public static void AddExpDetail(ExpInfoDetail[] expInfoDetails)
+        {
+            if(runningExp)
+            {
+                foreach(ExpInfoDetail expInfoDetail in expInfoDetails)
+                {
+                    expInfoDetail.ExpNo = expNo;
+                }
+                expInfoDetailContext.ExpInfoDetails.AddRange(expInfoDetails);
+                expInfoDetailContext.SaveChanges();
+            }
         }
     }
 }
