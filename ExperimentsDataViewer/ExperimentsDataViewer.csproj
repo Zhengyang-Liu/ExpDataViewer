@@ -200,6 +200,7 @@
     <Content Include="Views\ExpInfoDetails\Edit.cshtml" />
     <Content Include="Views\ExpInfoDetails\Index.cshtml" />
     <Content Include="Views\ExpInfo\Chart.cshtml" />
+    <Content Include="Views\ExpInfo\RunningExp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
