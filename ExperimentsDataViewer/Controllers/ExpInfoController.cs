@@ -12,16 +12,11 @@ namespace ExperimentsDataViewer.Controllers
 {
     public class ExpInfoController : Controller
     {
-        private ExpInfoContext expInfoContextDb = new ExpInfoContext();
-        private RunningExpContext runningExpContextDb = new RunningExpContext();
-        private ExpInfoDetailContext expInfoDetailContext = new ExpInfoDetailContext();
-        private ExpNoConfig expNoConfig = new ExpNoConfig();
-
         // GET: ExpInfo
         public ActionResult Index()
         {
-            ViewBag.RunningExpList = runningExpContextDb.RunningExp.ToList();
-            return View(expInfoContextDb.ExpInfoes.ToList());
+            ViewBag.RunningExpList = DataManager.runningExpContextDb.RunningExp.ToList();
+            return View(DataManager.expInfoContextDb.ExpInfoes.ToList());
         }
 
         // GET: ExpInfo/Details/5
@@ -31,12 +26,12 @@ namespace ExperimentsDataViewer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ExpInfo expInfo = expInfoContextDb.ExpInfoes.Find(id);
+            ExpInfo expInfo = DataManager.expInfoContextDb.ExpInfoes.Find(id);
             if (expInfo == null)
             {
                 return HttpNotFound();
             }
-            var list = expInfoDetailContext.ExpInfoDetails.ToList().Where(detail => detail.ExpNo == id.Value);
+            var list = DataManager.expInfoDetailContext.ExpInfoDetails.ToList().Where(detail => detail.ExpNo == id.Value);
             if (list == null || list.Count() <= 0)
             {
                 return View(new List<ExpInfoDetail>());
@@ -51,12 +46,12 @@ namespace ExperimentsDataViewer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ExpInfo expInfo = expInfoContextDb.ExpInfoes.Find(id);
+            ExpInfo expInfo = DataManager.expInfoContextDb.ExpInfoes.Find(id);
             if (expInfo == null)
             {
                 return HttpNotFound();
             }
-            var list = expInfoDetailContext.ExpInfoDetails.ToList().Where(detail => detail.ExpNo == id.Value);
+            var list = DataManager.expInfoDetailContext.ExpInfoDetails.ToList().Where(detail => detail.ExpNo == id.Value);
             if (list == null || list.Count() <= 0)
             {
                 return View(new List<ExpInfoDetail>());
@@ -69,41 +64,37 @@ namespace ExperimentsDataViewer.Controllers
             if (this.HasRunningExp())
                 return RedirectToAction("Index");
 
-            int expNo = this.GetAndUpdateExpNo();
-
             var startTime = DateTime.Now;
             ExpInfo expInfo = new ExpInfo()
             {
-                StartTime = startTime,
-                ExpNo = expNo
+                StartTime = startTime
             };
-            this.AddExpInfo(expInfo);
+            ExpInfo returnExpInfo = this.AddExpInfo(expInfo);
 
             this.AddRunningExp(
                 new RunningExp()
                 {
-                    StartTime = startTime,
-                    ExpNo = expNo
+                    StartTime = startTime
                 }
             );
 
             DataManager.runningExp = true;
-            DataManager.expNo = expNo;
+            DataManager.expNo = returnExpInfo.ExpNo;
 
             return RedirectToAction("Index");
         }
 
         public ActionResult FinishExp()
         {
-            var runningExp = runningExpContextDb.RunningExp.ToList()[0];
-            var expSet = expInfoContextDb.ExpInfoes;
+            var runningExp = DataManager.runningExpContextDb.RunningExp.ToList()[0];
+            var expSet = DataManager.expInfoContextDb.ExpInfoes;
 
             ExpInfo expInfo = expSet.Find(runningExp.ExpNo);
             expInfo.EndTime = DateTime.Now;
             this.Edit(expInfo);
 
-            runningExpContextDb.RunningExp.Remove(runningExp);
-            runningExpContextDb.SaveChanges();
+            DataManager.runningExpContextDb.RunningExp.Remove(runningExp);
+            DataManager.runningExpContextDb.SaveChanges();
 
             DataManager.runningExp = false;
 
@@ -113,7 +104,7 @@ namespace ExperimentsDataViewer.Controllers
         private bool HasRunningExp()
         {
             bool result = false;
-            var runningExpSet = runningExpContextDb.RunningExp;
+            var runningExpSet = DataManager.runningExpContextDb.RunningExp;
             if (runningExpSet.Any())
             {
                 result = true;
@@ -121,44 +112,21 @@ namespace ExperimentsDataViewer.Controllers
             return result;
         }
 
-        private void AddExpInfo(ExpInfo expInfo)
+        private ExpInfo AddExpInfo(ExpInfo expInfo)
         {
+            ExpInfo result = null;
             if (ModelState.IsValid)
             {
-                expInfoContextDb.ExpInfoes.Add(expInfo);
-                expInfoContextDb.SaveChanges();
+                result = DataManager.expInfoContextDb.ExpInfoes.Add(expInfo);
+                DataManager.expInfoContextDb.SaveChanges();
             }
+            return result;
         }
 
         private void AddRunningExp(RunningExp runningExp)
         {
-            runningExpContextDb.RunningExp.Add(runningExp);
-            runningExpContextDb.SaveChanges();
-        }
-
-        private int GetAndUpdateExpNo()
-        {
-            int result;
-
-            if (!expNoConfig.expNo.Any())
-            {
-                expNoConfig.expNo.Add(new ExpNo
-                {
-                    NextNo = 0
-                });
-                expNoConfig.SaveChanges();
-            }
-
-            ExpNo[] expNoArray = expNoConfig.expNo.ToArray();
-
-            ExpNo expNo = expNoArray[0];
-            result = expNo.NextNo;
-
-            expNo.NextNo += 1;
-            expNoConfig.Entry(expNo).State = EntityState.Modified;
-            expNoConfig.SaveChanges();
-
-            return result;
+            DataManager.runningExpContextDb.RunningExp.Add(runningExp);
+            DataManager.runningExpContextDb.SaveChanges();
         }
 
         // GET: ExpInfo/Create
@@ -176,8 +144,8 @@ namespace ExperimentsDataViewer.Controllers
         {
             if (ModelState.IsValid)
             {
-                expInfoContextDb.ExpInfoes.Add(expInfo);
-                expInfoContextDb.SaveChanges();
+                DataManager.expInfoContextDb.ExpInfoes.Add(expInfo);
+                DataManager.expInfoContextDb.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -191,7 +159,7 @@ namespace ExperimentsDataViewer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ExpInfo expInfo = expInfoContextDb.ExpInfoes.Find(id);
+            ExpInfo expInfo = DataManager.expInfoContextDb.ExpInfoes.Find(id);
             if (expInfo == null)
             {
                 return HttpNotFound();
@@ -208,8 +176,8 @@ namespace ExperimentsDataViewer.Controllers
         {
             if (ModelState.IsValid)
             {
-                expInfoContextDb.Entry(expInfo).State = EntityState.Modified;
-                expInfoContextDb.SaveChanges();
+                DataManager.expInfoContextDb.Entry(expInfo).State = EntityState.Modified;
+                DataManager.expInfoContextDb.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(expInfo);
@@ -222,7 +190,7 @@ namespace ExperimentsDataViewer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ExpInfo expInfo = expInfoContextDb.ExpInfoes.Find(id);
+            ExpInfo expInfo = DataManager.expInfoContextDb.ExpInfoes.Find(id);
             if (expInfo == null)
             {
                 return HttpNotFound();
@@ -235,31 +203,19 @@ namespace ExperimentsDataViewer.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            ExpInfo expInfo = expInfoContextDb.ExpInfoes.Find(id);
-            expInfoContextDb.ExpInfoes.Remove(expInfo);
-            expInfoContextDb.SaveChanges();
+            ExpInfo expInfo = DataManager.expInfoContextDb.ExpInfoes.Find(id);
+            DataManager.expInfoContextDb.ExpInfoes.Remove(expInfo);
+            DataManager.expInfoContextDb.SaveChanges();
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                expInfoContextDb.Dispose();
-            }
+            //if (disposing)
+            //{
+            //    DataManager.expInfoContextDb.Dispose();
+            //}
             base.Dispose(disposing);
-        }
-
-        public void AddExpDetail(ExpInfoDetail expInfoDetail)
-        {
-            this.expInfoDetailContext.ExpInfoDetails.Add(expInfoDetail);
-            this.expInfoDetailContext.SaveChanges();
-        }
-
-        public void AddExpDetail(ExpInfoDetail[] expInfoDetails)
-        {
-            this.expInfoDetailContext.ExpInfoDetails.AddRange(expInfoDetails);
-            this.expInfoDetailContext.SaveChanges();
         }
     }
 }

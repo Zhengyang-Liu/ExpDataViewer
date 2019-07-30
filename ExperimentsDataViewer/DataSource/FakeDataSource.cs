@@ -28,7 +28,7 @@ namespace ExperimentsDataViewer.DataSource
         {
             timer = new Timer();
             timer.Elapsed += WriteDate;
-            timer.Interval = 30;
+            timer.Interval = 100;
             timer.AutoReset = true;
             timer.Start();
         }
@@ -38,7 +38,7 @@ namespace ExperimentsDataViewer.DataSource
             ExpInfoDetail expInfoDetail = new ExpInfoDetail()
             {
                 CollectedTime = DateTime.Now,
-                Acceleration = rnd.NextDouble()
+                Acceleration = rnd.NextDouble() * 2 - 1
             };
 
             appendDataFunction(expInfoDetail);

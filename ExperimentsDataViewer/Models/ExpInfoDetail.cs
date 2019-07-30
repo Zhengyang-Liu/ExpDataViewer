@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace ExperimentsDataViewer.Models
 {
     public class ExpInfoDetail
     {
+        [Key]
         public int Id { get; set; }
 
         // Indicates the experiment number.

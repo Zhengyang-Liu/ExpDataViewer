@@ -131,7 +131,6 @@
     <Compile Include="Controllers\ExpInfoController.cs" />
     <Compile Include="Controllers\ExpInfoDetailsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="DatabaseManager.cs" />
     <Compile Include="DataManager.cs" />
     <Compile Include="DataSource\ArduinoDataSource.cs" />
     <Compile Include="DataSource\FakeDataSource.cs" />
@@ -140,7 +139,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ExpInfoDetailContext.cs" />
-    <Compile Include="Models\ExpNoConfig.cs" />
     <Compile Include="Models\RunningExp.cs" />
     <Compile Include="Models\RunningExpContext.cs" />
     <Compile Include="Models\ExpInfoDetail.cs" />

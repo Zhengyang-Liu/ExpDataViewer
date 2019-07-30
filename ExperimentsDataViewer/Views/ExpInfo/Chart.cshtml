@@ -8,7 +8,7 @@
 
 <div>
     <script src="~/Scripts/echarts.min.js"></script>
-    <div id="main" style="width: 600px;height:400px;"></div>
+    <div id="main" style="width: 1400px;height:700px;"></div>
     <script type="text/javascript">
 
         var myChart = echarts.init(document.getElementById('main'));
@@ -38,10 +38,18 @@
             toolbox: {
                 feature: {
                     dataZoom: {
-                        yAxisIndex: 'none'
+                        yAxisIndex: 'none',
+                        title: {
+                            zoom: 'Zoom',
+                            back: 'Back'
+                        }
                     },
-                    restore: {},
-                    saveAsImage: {}
+                    restore: {
+                        title: 'Restore'
+                    },
+                    saveAsImage: {
+                        title: 'Save'
+                    }
                 }
             },
             xAxis: {

@@ -17,12 +17,10 @@ namespace ExperimentsDataViewer.Models
         public int ExpNo { set; get; }
 
         // The experiment start time
-        //[DataType(DataType.DateTime)]
         [Column(TypeName = "datetime2")]
         public DateTime StartTime { set; get; }
 
         // The experiment end time
-        //[DataType(DataType.DateTime)]
         [Column(TypeName = "datetime2")]
         public DateTime EndTime { set; get; }
     }
