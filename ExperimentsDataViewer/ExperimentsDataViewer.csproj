@@ -161,6 +161,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="libman.json" />
     <Content Include="package.json" />
+    <None Include="Properties\PublishProfiles\ExperimentsDataViewer20190730031736 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\echarts.min.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
