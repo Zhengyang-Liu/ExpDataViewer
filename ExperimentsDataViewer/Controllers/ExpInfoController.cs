@@ -32,6 +32,7 @@ namespace ExperimentsDataViewer.Controllers
                 return HttpNotFound();
             }
             var list = DataManager.expInfoDetailContext.ExpInfoDetails.ToList().Where(detail => detail.ExpNo == id.Value);
+            list = list.OrderBy(o => o.CollectedTime).ToList();
             if (list == null || list.Count() <= 0)
             {
                 return View(new List<ExpInfoDetail>());
@@ -51,7 +52,8 @@ namespace ExperimentsDataViewer.Controllers
             {
                 return HttpNotFound();
             }
-            var list = DataManager.expInfoDetailContext.ExpInfoDetails.ToList().Where(detail => detail.ExpNo == id.Value);
+            IEnumerable<ExpInfoDetail> list = DataManager.expInfoDetailContext.ExpInfoDetails.ToList().Where(detail => detail.ExpNo == id.Value);
+            list = list.OrderBy(o => o.CollectedTime).ToList();
             if (list == null || list.Count() <= 0)
             {
                 return View(new List<ExpInfoDetail>());
@@ -207,15 +209,6 @@ namespace ExperimentsDataViewer.Controllers
             DataManager.expInfoContextDb.ExpInfoes.Remove(expInfo);
             DataManager.expInfoContextDb.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            //if (disposing)
-            //{
-            //    DataManager.expInfoContextDb.Dispose();
-            //}
-            base.Dispose(disposing);
         }
     }
 }

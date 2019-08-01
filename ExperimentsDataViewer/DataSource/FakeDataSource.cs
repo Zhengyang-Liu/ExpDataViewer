@@ -11,13 +11,7 @@ namespace ExperimentsDataViewer.DataSource
     class FakeDataSource : IDataSource
     {
         Timer timer;
-        Action<ExpInfoDetail> appendDataFunction;
-        Random rnd = new Random();
-
-        public FakeDataSource(Action<ExpInfoDetail> appendDataFunction)
-        {
-            this.appendDataFunction = appendDataFunction;
-        }
+        int counter = 1;
 
         public void Start()
         {
@@ -28,20 +22,32 @@ namespace ExperimentsDataViewer.DataSource
         {
             timer = new Timer();
             timer.Elapsed += WriteDate;
-            timer.Interval = 100;
+            timer.Interval = 300;
             timer.AutoReset = true;
             timer.Start();
         }
 
         private void WriteDate(object sender, EventArgs e)
         {
+            int deg = 30 * counter;
+            double rad = Math.PI * deg / 180.0;
+
+            double value = Math.Sin(rad);
+
             ExpInfoDetail expInfoDetail = new ExpInfoDetail()
             {
                 CollectedTime = DateTime.Now,
-                Acceleration = rnd.NextDouble() * 2 - 1
+                Acceleration = value
             };
 
-            appendDataFunction(expInfoDetail);
+            counter++;
+
+            if(counter > 12)
+            {
+                counter = 1;
+            }
+
+            DataManager.ReceiveData(expInfoDetail);
         }
 
         public void OnClose()

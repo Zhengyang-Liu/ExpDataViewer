@@ -27,7 +27,7 @@
 				@Html.DisplayFor(modelItem => item.ExpNo)
 			</td>
 			<td>
-				@Html.DisplayFor(modelItem => item.CollectedTime)
+				@item.CollectedTime.ToString("yyyy-MM-dd HH:mm:ss.ffff")
 			</td>
 			<td>
 				@Html.DisplayFor(modelItem => item.Acceleration)

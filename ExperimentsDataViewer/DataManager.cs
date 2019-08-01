@@ -15,7 +15,7 @@ namespace ExperimentsDataViewer
         public static bool runningExp = false;
         public static int expNo;
 
-        static IDataSource dataSource = new FakeDataSource(ReceiveData);
+        static IDataSource dataSource = new FakeDataSource();
 
         public static ExpInfoContext expInfoContextDb = new ExpInfoContext();
         public static RunningExpContext runningExpContextDb = new RunningExpContext();
@@ -33,8 +33,8 @@ namespace ExperimentsDataViewer
                 expNo = runningExpContextDb.RunningExp.ToArray()[0].ExpNo;
             }
 
-            aTimer = new System.Timers.Timer();
-            aTimer.Interval = 5000;
+            aTimer = new Timer();
+            aTimer.Interval = 1000;
             aTimer.Elapsed += Upload;
             aTimer.AutoReset = true;
             aTimer.Enabled = true;
@@ -45,7 +45,7 @@ namespace ExperimentsDataViewer
             return runningExpContextDb.RunningExp.Any();
         }
 
-        private static void ReceiveData(ExpInfoDetail expInfoDetail)
+        public static void ReceiveData(ExpInfoDetail expInfoDetail)
         {
             if (runningExp)
             {
@@ -56,21 +56,27 @@ namespace ExperimentsDataViewer
 
         public static void AddExpDetail(ExpInfoDetail expInfoDetail)
         {
-            expInfoDetail.ExpNo = expNo;
-            expInfoDetailContext.ExpInfoDetails.Add(expInfoDetail);
-            expInfoDetailContext.SaveChanges();
+            using (var expInfoDetailContext = new ExpInfoDetailContext())
+            {
+                expInfoDetailContext.ExpInfoDetails.Add(expInfoDetail);
+                expInfoDetailContext.SaveChanges();
+            }
         }
 
         public static void AddExpDetail(ExpInfoDetail[] expInfoDetails)
         {
-            expInfoDetailContext.ExpInfoDetails.AddRange(expInfoDetails);
-            expInfoDetailContext.SaveChanges();
+            using(var expInfoDetailContext = new ExpInfoDetailContext())
+            {
+                expInfoDetailContext.ExpInfoDetails.AddRange(expInfoDetails);
+                expInfoDetailContext.SaveChanges();
+            }
         }
 
-        private static void Upload(Object source, System.Timers.ElapsedEventArgs e)
+        private static void Upload(Object source, ElapsedEventArgs e)
         {
-            AddExpDetail(expInfoDetailList.ToArray());
+            var uploadArray = expInfoDetailList.ToArray();
             expInfoDetailList.Clear();
+            AddExpDetail(uploadArray);
         }
     }
 }
