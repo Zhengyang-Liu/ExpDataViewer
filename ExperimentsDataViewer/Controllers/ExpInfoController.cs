@@ -83,6 +83,8 @@ namespace ExperimentsDataViewer.Controllers
             DataManager.runningExp = true;
             DataManager.expNo = returnExpInfo.ExpNo;
 
+            Pipe.StartExpt();
+
             return RedirectToAction("Index");
         }
 
@@ -99,6 +101,8 @@ namespace ExperimentsDataViewer.Controllers
             DataManager.runningExpContextDb.SaveChanges();
 
             DataManager.runningExp = false;
+
+            Pipe.EndExpt();
 
             return RedirectToAction("Index");
         }

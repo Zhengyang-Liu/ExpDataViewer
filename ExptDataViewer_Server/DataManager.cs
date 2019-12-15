@@ -16,7 +16,7 @@ namespace ExperimentsDataViewer
         public static bool runningExp = false;
         public static int expNo;
 
-        //static IDataSource dataSource = new HTTPDataSource();
+        static IDataSource dataSource = new FakeDataSource();
 
         public static ExpInfoContext expInfoContextDb = new ExpInfoContext();
         public static RunningExpContext runningExpContextDb = new RunningExpContext();

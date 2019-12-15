@@ -5,8 +5,12 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
 using ExperimentsDataViewer.Models;
+using Newtonsoft.Json.Linq;
+using ActionNameAttribute = System.Web.Mvc.ActionNameAttribute;
+using HttpPostAttribute = System.Web.Mvc.HttpPostAttribute;
 
 namespace ExperimentsDataViewer.Controllers
 {
@@ -113,6 +117,17 @@ namespace ExperimentsDataViewer.Controllers
             db.ExpInfoDetails.Remove(expInfoDetail);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        // POST: ExpInfoDetails/Add
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        public void Add(ExpInfoDetail data)
+        {
+            DataManager.ReceiveData(data);
+
+            return;
         }
 
         protected override void Dispose(bool disposing)

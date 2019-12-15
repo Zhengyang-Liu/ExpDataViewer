@@ -1,0 +1,38 @@
+﻿@model IEnumerable<ExperimentsDataViewer.Models.ExpInfoDetail>
+
+@{
+	ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<table class="table">
+	<tr>
+		<th>
+			ExpNo
+		</th>
+		<th>
+			CollectedTime
+		</th>
+		<th>
+			Acceleration
+		</th>
+		<th></th>
+	</tr>
+
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.ExpNo)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.CollectedTime)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Acceleration)
+			</td>
+		</tr>
+	}
+
+</table>
