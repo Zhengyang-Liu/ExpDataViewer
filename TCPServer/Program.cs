@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace TCPServer
@@ -15,25 +16,11 @@ namespace TCPServer
     {
         static void Main(string[] args)
         {
-            using (NamedPipeClientStream namedPipeClient = new NamedPipeClientStream("test-pipe"))
-            {
-                namedPipeClient.Connect();
-                StreamReader sr = new StreamReader(namedPipeClient);
+            Thread PipeTread = new Thread(Pipe.Init);
+            PipeTread.Start();
 
-                do
-                {
-                    try
-                    {
-                        string test;
-                        test = sr.ReadLine();
-                        Console.WriteLine(test);
-                    }
-
-                    catch (Exception ex) { throw ex; }
-                } while (true);
-
-            }
-            //TCPManager.Init();
+            Thread TCPTread = new Thread(TCPManager.Init);
+            TCPTread.Start();
         }
 
     }

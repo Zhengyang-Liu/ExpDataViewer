@@ -8,28 +8,22 @@ namespace ExperimentsDataViewer
     public static class Pipe
     {
         public static NamedPipeServerStream namedPipeServer;
+        static StreamWriter sw;
         public static void Init()
         {
             namedPipeServer = new NamedPipeServerStream("test-pipe");
             namedPipeServer.WaitForConnection();
 
-            using (StreamWriter sw = new StreamWriter(namedPipeServer))
-            {
-                sw.AutoFlush = true;
-                sw.WriteLine("Pipe Connnected");
-            }
+            sw = new StreamWriter(namedPipeServer);
+            sw.AutoFlush = true;
+            sw.WriteLine("Pipe Connected");
         }
 
         public static void StartExpt()
         {
             try
             {
-                // Read user input and send that to the client process.
-                using (StreamWriter sw = new StreamWriter(namedPipeServer))
-                {
-                    sw.AutoFlush = true;
-                    sw.WriteLine("Start Expt");
-                }
+                sw.WriteLine("Start Expt");
             }
             // Catch the IOException that is raised if the pipe is broken
             // or disconnected.
@@ -43,12 +37,7 @@ namespace ExperimentsDataViewer
         {
             try
             {
-                // Read user input and send that to the client process.
-                using (StreamWriter sw = new StreamWriter(namedPipeServer))
-                {
-                    sw.AutoFlush = true;
-                    sw.WriteLine("End Expt");
-                }
+                sw.WriteLine("End Expt");
             }
             // Catch the IOException that is raised if the pipe is broken
             // or disconnected.

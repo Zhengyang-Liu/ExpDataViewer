@@ -10,14 +10,18 @@ namespace TCPServer
 {
     public static class TCPManager
     {
+        static TcpListener server = null;
+        static Int32 port = 13000;
+
+        static TcpClient client = null;
+        // Get a stream object for reading and writing
+        static NetworkStream stream;
+
+        static string serverMessage = "TCP Server: ";
         public static void Init()
         {
-            TcpListener server = null;
             try
             {
-                // Set the TcpListener on port 13000.
-                Int32 port = 13000;
-
                 // TcpListener server = new TcpListener(port);
                 server = new TcpListener(IPAddress.Any, port);
 
@@ -31,15 +35,15 @@ namespace TCPServer
                 // Enter the listening loop.
                 while (true)
                 {
-                    Console.Write("Waiting for a connection... ");
+                    Console.Write(serverMessage + "Waiting for a connection... ");
 
                     // Perform a blocking call to accept requests.
                     // You could also user server.AcceptSocket() here.
-                    TcpClient client = server.AcceptTcpClient();
-                    Console.WriteLine("Connected!");
+                    client = server.AcceptTcpClient();
+                    Console.WriteLine(serverMessage + "Connected!");
 
                     // Get a stream object for reading and writing
-                    NetworkStream stream = client.GetStream();
+                    stream = client.GetStream();
 
                     data = "testing";
                     byte[] msg = Encoding.ASCII.GetBytes(data);
@@ -82,6 +86,16 @@ namespace TCPServer
 
             Console.WriteLine("\nHit enter to continue...");
             Console.Read();
+        }
+
+        public static void StartExpt()
+        {
+            Console.WriteLine(serverMessage + "StartExpt");
+        }
+
+        public static void EndExpt()
+        {
+            Console.WriteLine(serverMessage + "EndExpt");
         }
     }
 }
