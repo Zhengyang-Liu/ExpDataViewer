@@ -12,10 +12,12 @@ namespace ExperimentsDataViewer
         {
             namedPipeServer = new NamedPipeServerStream("test-pipe");
             namedPipeServer.WaitForConnection();
-            Debug.WriteLine("Pipe Connected");
 
-            int byteFromClient = namedPipeServer.ReadByte();
-            Debug.WriteLine(byteFromClient);
+            using (StreamWriter sw = new StreamWriter(namedPipeServer))
+            {
+                sw.AutoFlush = true;
+                sw.WriteLine("Pipe Connnected");
+            }
         }
 
         public static void StartExpt()
