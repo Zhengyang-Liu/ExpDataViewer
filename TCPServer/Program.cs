@@ -18,8 +18,20 @@ namespace TCPServer
             using (NamedPipeClientStream namedPipeClient = new NamedPipeClientStream("test-pipe"))
             {
                 namedPipeClient.Connect();
-                Console.WriteLine(namedPipeClient.ReadByte());
-                namedPipeClient.WriteByte(2);
+                StreamReader sr = new StreamReader(namedPipeClient);
+
+                do
+                {
+                    try
+                    {
+                        string test;
+                        test = sr.ReadLine();
+                        Console.WriteLine(test);
+                    }
+
+                    catch (Exception ex) { throw ex; }
+                } while (true);
+
             }
             //TCPManager.Init();
         }
