@@ -35,7 +35,7 @@ namespace TCPServer
                 // Enter the listening loop.
                 while (true)
                 {
-                    Console.Write(serverMessage + "Waiting for a connection... ");
+                    Console.WriteLine(serverMessage + "Waiting for a connection... ");
 
                     // Perform a blocking call to accept requests.
                     // You could also user server.AcceptSocket() here.

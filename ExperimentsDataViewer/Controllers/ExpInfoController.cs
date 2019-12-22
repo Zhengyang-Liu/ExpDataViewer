@@ -63,25 +63,25 @@ namespace ExperimentsDataViewer.Controllers
 
         public ActionResult StartExp()
         {
-            if (this.HasRunningExp())
-                return RedirectToAction("Index");
+            //if (this.HasRunningExp())
+            //    return RedirectToAction("Index");
 
-            var startTime = DateTime.Now;
-            ExpInfo expInfo = new ExpInfo()
-            {
-                StartTime = startTime
-            };
-            ExpInfo returnExpInfo = this.AddExpInfo(expInfo);
+            //var startTime = DateTime.Now;
+            //ExpInfo expInfo = new ExpInfo()
+            //{
+            //    StartTime = startTime
+            //};
+            //ExpInfo returnExpInfo = this.AddExpInfo(expInfo);
 
-            this.AddRunningExp(
-                new RunningExp()
-                {
-                    StartTime = startTime
-                }
-            );
+            //this.AddRunningExp(
+            //    new RunningExp()
+            //    {
+            //        StartTime = startTime
+            //    }
+            //);
 
-            DataManager.runningExp = true;
-            DataManager.expNo = returnExpInfo.ExpNo;
+            //DataManager.runningExp = true;
+            //DataManager.expNo = returnExpInfo.ExpNo;
 
             Pipe.StartExpt();
 
@@ -90,17 +90,17 @@ namespace ExperimentsDataViewer.Controllers
 
         public ActionResult FinishExp()
         {
-            var runningExp = DataManager.runningExpContextDb.RunningExp.ToList()[0];
-            var expSet = DataManager.expInfoContextDb.ExpInfoes;
+            //var runningExp = DataManager.runningExpContextDb.RunningExp.ToList()[0];
+            //var expSet = DataManager.expInfoContextDb.ExpInfoes;
 
-            ExpInfo expInfo = expSet.Find(runningExp.ExpNo);
-            expInfo.EndTime = DateTime.Now;
-            this.Edit(expInfo);
+            //ExpInfo expInfo = expSet.Find(runningExp.ExpNo);
+            //expInfo.EndTime = DateTime.Now;
+            //this.Edit(expInfo);
 
-            DataManager.runningExpContextDb.RunningExp.Remove(runningExp);
-            DataManager.runningExpContextDb.SaveChanges();
+            //DataManager.runningExpContextDb.RunningExp.Remove(runningExp);
+            //DataManager.runningExpContextDb.SaveChanges();
 
-            DataManager.runningExp = false;
+            //DataManager.runningExp = false;
 
             Pipe.EndExpt();
 
