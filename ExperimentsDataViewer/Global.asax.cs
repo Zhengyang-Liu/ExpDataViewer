@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -19,7 +20,9 @@ namespace ExperimentsDataViewer
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             DataManager.Init();
-            Pipe.Init();
+
+            Thread PipeTread = new Thread(Pipe.Init);
+            PipeTread.Start();
         }
     }
 }
