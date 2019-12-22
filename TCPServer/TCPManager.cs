@@ -16,6 +16,7 @@ namespace TCPServer
         static TcpClient client = null;
         // Get a stream object for reading and writing
         static NetworkStream stream;
+        static bool isConnected;
 
         static string serverMessage = "TCP Server: ";
         public static void Init()
@@ -35,47 +36,52 @@ namespace TCPServer
                 // Enter the listening loop.
                 while (true)
                 {
-                    Console.Write(serverMessage + "Waiting for a connection... ");
+                    Console.WriteLine(serverMessage + "Waiting for a connection... ");
 
                     // Perform a blocking call to accept requests.
                     // You could also user server.AcceptSocket() here.
                     client = server.AcceptTcpClient();
+                    isConnected = true;
                     Console.WriteLine(serverMessage + "Connected!");
 
                     // Get a stream object for reading and writing
                     stream = client.GetStream();
-
-                    data = "testing";
-                    byte[] msg = Encoding.ASCII.GetBytes(data);
-                    stream.Write(msg, 0, msg.Length);
-                    Console.WriteLine("Sent: {0}", data);
-
+                    byte[] msg;
                     int i;
 
-                    // Loop to receive all the data sent by the client.
-                    while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
+                    try
                     {
-                        // Translate data bytes to a ASCII string.
-                        data = Encoding.ASCII.GetString(bytes, 0, i);
-                        Console.WriteLine("Received: {0}", data);
+                        // Loop to receive all the data sent by the client.
+                        while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
+                        {
+                            // Translate data bytes to a ASCII string.
+                            data = Encoding.ASCII.GetString(bytes, 0, i);
+                            Console.WriteLine(serverMessage + "Received: {0}", data);
 
-                        // Process the data sent by the client.
-                        data = data.ToUpper();
+                            // Process the data sent by the client.
+                            data = data.ToUpper();
 
-                        msg = Encoding.ASCII.GetBytes(data);
+                            msg = Encoding.ASCII.GetBytes(data);
 
-                        // Send back a response.
-                        stream.Write(msg, 0, msg.Length);
-                        Console.WriteLine("Sent: {0}", data);
+                            // Send back a response.
+                            stream.Write(msg, 0, msg.Length);
+                            Console.WriteLine(serverMessage + "Sent: {0}", data);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(serverMessage + "SocketException: {0}", e);
                     }
 
                     // Shutdown and end connection
                     client.Close();
+                    isConnected = false;
+                    Console.WriteLine(serverMessage + "Client Disconnected");
                 }
             }
             catch (SocketException e)
             {
-                Console.WriteLine("SocketException: {0}", e);
+                Console.WriteLine(serverMessage + "SocketException: {0}", e);
             }
             finally
             {
@@ -84,18 +90,38 @@ namespace TCPServer
             }
 
 
-            Console.WriteLine("\nHit enter to continue...");
+            Console.WriteLine(serverMessage + "\nHit enter to continue...");
             Console.Read();
         }
 
         public static void StartExpt()
         {
-            Console.WriteLine(serverMessage + "StartExpt");
+            if (isConnected)
+            {
+                string message = "Start";
+                byte[] msg = Encoding.ASCII.GetBytes(message);
+                stream.Write(msg, 0, msg.Length);
+                Console.WriteLine(serverMessage + "Start");
+            }
+            else
+            {
+                Console.WriteLine(serverMessage + "Failed to send Start message, client isn't connected");
+            }
         }
 
         public static void EndExpt()
         {
-            Console.WriteLine(serverMessage + "EndExpt");
+            if (isConnected)
+            {
+                string message = "End";
+                byte[] msg = Encoding.ASCII.GetBytes(message);
+                stream.Write(msg, 0, msg.Length);
+                Console.WriteLine(serverMessage + "End");
+            }
+            else
+            {
+                Console.WriteLine(serverMessage + "Failed to send End message, client isn't connected");
+            }
         }
     }
 }

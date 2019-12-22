@@ -15,7 +15,7 @@ namespace TCPServer
             using (NamedPipeClientStream namedPipeClient = new NamedPipeClientStream("test-pipe"))
             {
                 namedPipeClient.Connect();
-                Console.WriteLine("Client: Pipe Connected");
+                Console.WriteLine("Pipe Client: Pipe Connected");
 
                 StreamReader sr = new StreamReader(namedPipeClient);
 
@@ -27,7 +27,7 @@ namespace TCPServer
                         Message = sr.ReadLine();
                         if (!String.IsNullOrEmpty(Message))
                         {
-                            Console.WriteLine("Server: " + Message);
+                            Console.WriteLine("Pipe Server: " + Message);
 
                             if(Message == "Start Expt")
                             {
